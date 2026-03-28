@@ -1,0 +1,78 @@
+.banner {
+    width: 100%;
+    height: auto;
+    margin-top: 5px;
+}
+
+.home-text {
+    width: 100%;
+    text-align: center;
+}
+
+.home-text p {
+    font-size: 20px;
+}
+.about-section {
+  background-color: #f8f6f0;
+  padding: 10px 20px;
+  text-align: center;
+  border-bottom: 2px solid #9cbd9e;
+}
+
+.about-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.about-label {
+  color: #44bb4e;
+  font-weight: 600;
+  letter-spacing: 8px;
+  font-size: 18px;
+}
+
+.about-title {
+  font-size: 36px;
+  margin: 20px 0;
+  color: #2f5d50;
+}
+
+.about-description {
+  font-size: 18px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.about-features {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.feature-item {
+  background: #ffffff;
+  padding: 12px 20px;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  color: #2f5d50;
+}
+
+.about-btn {
+  background-color: #7fbf85;
+  color:white;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.about-btn:hover {
+  background-color: #7fbf81;
+}

@@ -1,0 +1,143 @@
+.signup_ContainerS {
+    width: 100%;
+    max-width: 750px;
+    width: auto;
+    height: auto;
+    margin: 40px auto;
+    display: flex;
+    background-color: #94c598;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+
+}
+
+
+.signup_form {
+    width: 100%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+
+.head_Img {
+    width: 90px;
+    height: 90px;
+}
+
+.signup_form h1 {
+    font-size: 24px;
+    margin: 10px 0 0;
+    text-align: center;
+}
+
+.signup_form p {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+}
+
+
+.signinwithgoogle {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.signinwithgoogle:hover {
+    background: #f1f1f1;
+}
+
+
+.signUp_inputs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.signUp_inputs input {
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+
+.btn_signup {
+    background-color: #44ae5c;
+    color: white;
+    border: none;
+    height: 44px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+s
+
+
+.login_text {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.login_link {
+    color: #f3ebea;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.signUp_checkboxfogetpassword {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+}
+
+.forget_password {
+    justify-items: flex-end;
+}
+
+
+.checboxx {
+    display: flex;
+    gap: 10px;
+
+
+}
+
+@media (max-width:768px) {
+    .signup_image {
+        display: none;
+    }
+
+    .signup_ContainerS {
+        display: flex;
+        justify-content: center;
+        max-width: auto;
+        width: 90%;
+        height: auto;
+        margin: 40px auto;
+    }
+
+
+    .signup_form {
+        width: 100%;
+
+    }
+}

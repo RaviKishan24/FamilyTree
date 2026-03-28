@@ -1,0 +1,59 @@
+/* main form */
+
+.family-form {
+    max-width: 580px;
+    width: 100%;
+    margin: 40px auto;
+    padding: 25px;
+    background: #f9fafc;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    font-family: Arial, sans-serif;
+}
+
+/* two column layout */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.input-form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.family-form input,
+.family-form select {
+    width: auto;
+    padding: 9px;
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    font-size: 14px;
+}
+
+
+
+.family-form label {
+    font-weight: 600;
+}
+
+.married-row-container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+}
+
+
+.married-row-container p {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.add-child-row {
+    margin-top: 15px;
+}
