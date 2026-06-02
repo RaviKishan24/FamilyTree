@@ -56,4 +56,9 @@
 
 .add-child-row {
     margin-top: 15px;
+    
+}
+.child-container{
+    display: flex;
+  gap: 20px;
 }

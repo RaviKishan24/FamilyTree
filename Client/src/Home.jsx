@@ -3,6 +3,7 @@ import banner2 from "./assets/banner2.jpg"
 import "./Home.css"
 import RecentlyAddedFamilies from './RecentlyAddedFamilies'
 import Testimonials from './Testimonials'
+import { Link } from 'react-router-dom'
 
 function Home() {
   return (
@@ -29,11 +30,14 @@ function Home() {
             <div className="feature-item">✔ Multi-Generation Support</div>
           </div>
 
-          <button className="about-btn">Start Building Now</button>
-        </div>
+          <Link to="/add-family">
+            <button className="add-family-btn">Start Building Now</button>
+          </Link>
+           
+          </div>
       </section>
-      <RecentlyAddedFamilies/>
-      <Testimonials/>
+      <RecentlyAddedFamilies />
+      <Testimonials />
 
     </div>
 

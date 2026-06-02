@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./Navbar.css";
 import logo from "./assets/logo.png";
-import { FaSearch, FaUser } from "react-icons/fa";
-
+import { FaSearch, FaUser, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+
 function Navbar() {
   const [search, setSearch] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -13,38 +14,65 @@ function Navbar() {
   };
 
   return (
-    <>
-      <nav className="navbar">
-      
+    <nav className="navbar">
+   
+      <Link
+        to="/"
+        className={`logo-wrapper ${
+          showSearch ? "mobile-hide" : ""
+        }`}
+      >
         <div className="logo-container">
           <img src={logo} alt="logo" className="logo" />
         </div>
+      </Link>
+
+      <form
+        className={`search-container ${
+          showSearch ? "mobile-search-active" : ""
+        }`}
+        onSubmit={handleSearch}
+      >
+        <input
+          type="text"
+          placeholder="Search family..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <button type="submit" className="search-icon">
+          <FaSearch />
+        </button>
+
+        <button
+          type="button"
+          className="close-search"
+          onClick={() => setShowSearch(false)}
+        >
+          <FaTimes />
+        </button>
+      </form>
+
+      {!showSearch && (
+        <button
+          className="mobile-search-btn"
+          onClick={() => setShowSearch(true)}
+        >
+          <FaSearch />
+        </button>
+      )}
 
       
-        <form className="search-container" onSubmit={handleSearch}>
-
-          <input
-            type="text"
-            placeholder="Search family..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button type="submit" className="search-icon">
-            <FaSearch />
-          </button>
-
-        </form>
-
-
-        <Link to={'/LoginSignup'}>
+      <Link
+        to="/LoginSignup"
+        className={showSearch ? "mobile-hide" : ""}
+      >
         <div className="user-section">
           <FaUser className="user-icon" />
           <span>Login</span>
-        </div></Link>
-      </nav>
-
-    
-    </>
+        </div>
+      </Link>
+    </nav>
   );
 }
 
