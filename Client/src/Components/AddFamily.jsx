@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./AddFamily.css";
-import PersonForm from "./PersonForm";
+import PersonForm from "../Pages/PersonForm";
 
 function AddFamily() {
 

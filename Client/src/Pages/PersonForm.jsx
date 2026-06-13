@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import "./PersonForm.css";
 
-import PersonNode from "./PersonNode"
+import PersonNode from "../Components/PersonNode"
 
 function PersonForm() {
     const createPerson = () => ({
-        id: Date.now() + Math.random(),
         name: "",
         gender: "",
         age: "",

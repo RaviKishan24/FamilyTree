@@ -1,6 +1,6 @@
 import React from "react";
 import "./RecentlyAddedFamilies.css";
-import families from "./test";
+import families from "../test";
 
 
 

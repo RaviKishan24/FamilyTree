@@ -1,6 +1,6 @@
 import React from "react";
 import "./Footer.css";
-import logo from "./assets/logo.png";
+import logo from "../assets/logo.png";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 function Footer() {
@@ -8,7 +8,7 @@ function Footer() {
     <footer className="footer">
       <div className="footer-container">
 
-        {/* Logo + About */}
+     
         <div className="footer-section">
           <img src={logo} alt="logo" className="footer-logo" />
           <p>
@@ -17,7 +17,7 @@ function Footer() {
           </p>
         </div>
 
-        {/* Quick Links */}
+        
         <div className="footer-section">
           <h4>Quick Links</h4>
           <ul>
@@ -28,7 +28,7 @@ function Footer() {
           </ul>
         </div>
 
-        {/* Support */}
+     
         <div className="footer-section">
           <h4>Support</h4>
           <ul>

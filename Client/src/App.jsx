@@ -1,31 +1,27 @@
-import Footer from "./Footer"
-import Home from "./Home"
-import Navbar from "./Navbar"
-import { Routes, Route } from "react-router-dom"
-import Signup from "./Signup"
-import AddFamily from "./AddFamily"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import Layout from "./Components/Layout"
+import Home from "./Pages/Home"
+import PersonForm from "./Pages/PersonForm";
+import Signup from "./Pages/Signup"
+import OtpVerification from "./Pages/OtpVerification";
+import ProtectedOtpRoute from "./Components/ProtectedOtpRoute";
+
 
 function App() {
-
-
-
-
+  const router = createBrowserRouter([
+    {
+      path: "/", element: <Layout />, children: [
+        { index: true, element: <Home /> },
+        { path: "/add-family", element: <PersonForm /> },
+        { path: "/LoginSignup", element: <Signup /> },
+        { path: "/otp-verification", element: (<ProtectedOtpRoute><OtpVerification /></ProtectedOtpRoute>) }
+      ]
+    }
+  ]);
   return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/LoginSignup" element={<Signup />} />
-        <Route path="/add-family" element={<AddFamily></AddFamily>}/>
-        
-
-      </Routes>
-
-
-
-      <Footer />
-
-    </>
+    <RouterProvider router={router}>
+      <App />
+    </RouterProvider>
   )
 }
 

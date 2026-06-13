@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import "./Navbar.css";
-import logo from "./assets/logo.png";
+import logo from "../assets/logo.png";
 import { FaSearch, FaUser, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const user=useSelector((state)=>state.user.user);
+  const isAuthenticated= useSelector((state)=>state.user.isAuthenticated);
+  console.log("user is : ",user)
+    console.log("isauthenticated : ",isAuthenticated)
 
   const handleSearch = (e) => {
     e.preventDefault();

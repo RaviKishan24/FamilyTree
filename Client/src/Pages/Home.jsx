@@ -1,8 +1,8 @@
 import React from 'react'
-import banner2 from "./assets/banner2.jpg"
+import banner2 from "../assets/banner2.jpg"
 import "./Home.css"
-import RecentlyAddedFamilies from './RecentlyAddedFamilies'
-import Testimonials from './Testimonials'
+import RecentlyAddedFamilies from '../Components/RecentlyAddedFamilies'
+import Testimonials from '../Components/Testimonials'
 import { Link } from 'react-router-dom'
 
 function Home() {

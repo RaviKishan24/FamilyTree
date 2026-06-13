@@ -121,6 +121,27 @@ s
 
 }
 
+.password_container {
+    position: relative;
+    width: 100%;
+}
+
+.password_container input {
+    width: 100%;
+    padding-right: 45px;
+    box-sizing: border-box;
+}
+
+.eye_icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
 @media (max-width:768px) {
     .signup_image {
         display: none;
