@@ -13,9 +13,13 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #94c598;
+  background-color: #94c598 ;
   padding: 12px 60px;
   gap: 20px;
+ position: sticky;
+  top: 0;
+  z-index: 1000;
+  width:100%;
 }
 
 .logo {
@@ -43,7 +47,7 @@ a {
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  background: #1b5e20;
+  background: #1b5e20 !important;
   border-radius: 50%;
   border: none;
   height: 32px;
