@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { register, otpVerification, login } from "./userThunk"
-import { useNavigate } from "react-router-dom";
+
 
 const initialState = {
     user: null,

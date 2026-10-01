@@ -1,31 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./OtpVerification.css";
-import { useDispatch, useSelector } from "react-redux"
-import { otpVerification } from "../features/user/userThunk"
+import { useDispatch, useSelector } from "react-redux";
+import { otpVerification } from "../features/user/userThunk";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaShieldAlt, FaRedo, FaClock, FaArrowLeft } from "react-icons/fa";
 
 function OtpVerification() {
-
-  const otpExpiration = useSelector((state) => state.user.otpExpiration) || localStorage.getItem("otpExpiration")
-  const isLoading = useSelector((state) => state.user.isLoading)
+  const otpExpiration =
+    useSelector((state) => state.user.otpExpiration) ||
+    localStorage.getItem("otpExpiration");
+  const isLoading = useSelector((state) => state.user.isLoading);
   const error = useSelector((state) => state.user.error);
 
-  const userEmail = localStorage.getItem("email") || useSelector((state) => state.user.email);
+  const userEmail =
+    localStorage.getItem("email") || useSelector((state) => state.user.email);
 
   const calculateTimeLeft = () => {
     if (!otpExpiration) return 0;
     const expiry = new Date(otpExpiration).getTime();
     const now = Date.now();
     return Math.max(Math.floor((expiry - now) / 1000), 0);
-  }
-
+  };
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const inputRefs = useRef([]);
 
   const handleChange = (value, index) => {
     if (!/^\d?$/.test(value)) return;
@@ -35,32 +37,29 @@ function OtpVerification() {
     setOtp(updatedOtp);
 
     if (value && index < 5) {
-      document.getElementById(`otp-${index + 1}`)?.focus();
+      inputRefs.current[index + 1]?.focus();
     }
   };
+
   const handleKeyDown = (e, index) => {
-    if (
-      e.key === "Backspace" &&
-      !otp[index] &&
-      index > 0
-    ) {
-      document.getElementById(`otp-${index - 1}`)?.focus();
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+    if (e.key === "ArrowLeft" && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+    if (e.key === "ArrowRight" && index < 5) {
+      inputRefs.current[index + 1]?.focus();
     }
   };
 
   const handlePaste = (e) => {
     e.preventDefault();
-
-    const pastedData = e.clipboardData
-      .getData("text")
-      .trim();
-
+    const pastedData = e.clipboardData.getData("text").trim();
     if (!/^\d{6}$/.test(pastedData)) return;
-
     setOtp(pastedData.split(""));
+    inputRefs.current[5]?.focus();
   };
-
-
 
   const formatTime = () => {
     const minutes = Math.floor(timeLeft / 60);
@@ -68,36 +67,32 @@ function OtpVerification() {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  const verifyOtp = async () => {
+  const isExpiringSoon = timeLeft > 0 && timeLeft <= 30;
 
+  const verifyOtp = async () => {
     const enteredOtp = otp.join("");
 
     if (enteredOtp.length !== 6) {
       toast.error("Enter complete OTP");
       return;
     }
+
     const data = { email: userEmail, otp: enteredOtp };
-    const Result = await dispatch(otpVerification(data))
-    console.log("result from otp verification ", Result);
+    const Result = await dispatch(otpVerification(data));
 
     if (otpVerification.fulfilled.match(Result)) {
       localStorage.removeItem("email");
       localStorage.removeItem("otpExpiration");
       localStorage.removeItem("canVerifyOtp");
-      toast.success(Result.payload.message + " Please Login")
+      toast.success(Result.payload.message + " Please Login");
       navigate("/LoginSignup", {
-        state: {
-          showLogin: true,
-        }
+        state: { showLogin: true },
       });
-
     } else {
       toast.error(Result.payload);
       setOtp(["", "", "", "", "", ""]);
-      document.getElementById("otp-0")?.focus();
+      inputRefs.current[0]?.focus();
     }
-
-
   };
 
   useEffect(() => {
@@ -108,20 +103,19 @@ function OtpVerification() {
   }, [otpExpiration]);
 
   useEffect(() => {
-    document.getElementById("otp-0")?.focus();
+    inputRefs.current[0]?.focus();
   }, []);
-
-
-
 
   return (
     <div className="otp-page">
       <div className="otp-card">
-        <h2>OTP Verification</h2>
+        <div className="otp-icon-wrap">
+          <FaShieldAlt className="otp-icon" />
+        </div>
 
-        <p className="otp-message">
-          We've sent a verification code to
-        </p>
+        <h2 className="otp-title">Verify Your Email</h2>
+
+        <p className="otp-message">We've sent a 6-digit verification code to</p>
 
         <p className="email">{userEmail}</p>
 
@@ -130,40 +124,53 @@ function OtpVerification() {
             <input
               key={index}
               id={`otp-${index}`}
+              ref={(el) => (inputRefs.current[index] = el)}
               type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
               maxLength="1"
               value={digit}
-              onChange={(e) =>
-                handleChange(e.target.value, index)
-              }
+              onChange={(e) => handleChange(e.target.value, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               onPaste={handlePaste}
-              className="otp-input"
+              className={`otp-input ${digit ? "filled" : ""}`}
+              aria-label={`OTP digit ${index + 1}`}
             />
           ))}
         </div>
 
-        <div className="timer">
-          Time Remaining: {formatTime()}
+        <div className={`timer ${isExpiringSoon ? "timer-warning" : ""}`}>
+          <FaClock className="timer-icon" />
+          <span>
+            Time Remaining: <strong>{formatTime()}</strong>
+          </span>
         </div>
 
         {timeLeft === 0 ? (
-          <button
-            className="resend-btn"
-          >
+          <button type="button" className="resend-btn">
+            <FaRedo className="resend-icon" />
             Resend OTP
           </button>
         ) : (
-          <p className="resend-text">
-            Resend available after timer ends
-          </p>
+          <p className="resend-text">Resend available after timer ends</p>
         )}
+
         <button
+          type="button"
           className="verify-btn"
           onClick={verifyOtp}
           disabled={otp.join("").length !== 6 || isLoading}
         >
           {isLoading ? "Verifying..." : "Verify OTP"}
+        </button>
+
+        <button
+          type="button"
+          className="back-link"
+          onClick={() => navigate("/LoginSignup")}
+        >
+          <FaArrowLeft className="back-icon" />
+          Back to Login
         </button>
       </div>
     </div>

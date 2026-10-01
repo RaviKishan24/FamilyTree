@@ -1,0 +1,270 @@
+.person-node {
+  margin-left: 24px;
+  border-left: 2px dashed #cbd5e0;
+  padding-left: 20px;
+  margin-top: 16px;
+  position: relative;
+  transition: border-color 0.2s ease;
+}
+
+.person-node:hover {
+  border-left-color: #667eea;
+}
+
+.person-node::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 24px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #cbd5e0;
+  transition: all 0.2s ease;
+}
+
+.person-node:hover::before {
+  border-color: #667eea;
+  background: #667eea;
+}
+
+.person-node-card {
+  background: #ffffff;
+  border: 1.5px solid #edf2f7;
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.person-node-card:hover {
+  border-color: #d6dce5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.person-node-title {
+  margin: 0 0 14px 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #718096;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.person-node-title::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.person-node-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.person-node-fields input:only-child,
+.person-node-fields input:first-child:nth-last-child(3) {
+  grid-column: span 1;
+}
+
+.person-node-card input[type="text"],
+.person-node-card input[type="date"],
+.person-node-card input:not([type]),
+.person-node-card select {
+  width: 100%;
+  padding: 10px 13px;
+  border-radius: 9px;
+  border: 1.5px solid #e2e8f0;
+  font-size: 13.5px;
+  font-family:
+    "Inter",
+    -apple-system,
+    sans-serif;
+  color: #2d3748;
+  background: #f9fafc;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.person-node-card input:focus,
+.person-node-card select:focus {
+  border-color: #667eea;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+}
+
+.person-node-card input::placeholder {
+  color: #a0aec0;
+}
+
+.person-node-card select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718096' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.person-node-married {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 10px 0 14px 0;
+  padding: 10px 16px;
+  background: #f7fafc;
+  border-radius: 10px;
+  border: 1.5px solid #edf2f7;
+}
+
+.person-node-married p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.person-node-married label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4a5568;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.person-node-married label:hover {
+  background: #edf2f7;
+}
+
+.person-node-married input[type="radio"] {
+  width: 15px;
+  height: 15px;
+  accent-color: #667eea;
+  cursor: pointer;
+  margin: 0;
+}
+
+.person-node-spouse {
+  margin: 12px 0;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
+  border: 1.5px solid #e9d8fd;
+  border-radius: 12px;
+  animation: nodeSlideDown 0.25s ease;
+}
+
+@keyframes nodeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.person-node-spouse h5 {
+  margin: 0 0 12px 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #805ad5;
+}
+
+.person-node-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.person-node-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  font-family:
+    "Inter",
+    -apple-system,
+    sans-serif;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.person-node-btn-add {
+  border: 1.5px dashed #cbd5e0;
+  color: #4a5568;
+}
+
+.person-node-btn-add:hover {
+  border-color: #667eea;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.06);
+}
+
+.person-node-btn-remove {
+  border: 1.5px solid #fed7d7;
+  color: #e53e3e;
+}
+
+.person-node-btn-remove:hover {
+  background: #fff5f5;
+  border-color: #fc8181;
+  color: #c53030;
+}
+
+.person-node-children {
+  margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .person-node {
+    margin-left: 10px;
+    padding-left: 12px;
+  }
+
+  .person-node-card {
+    padding: 16px 14px;
+    border-radius: 12px;
+  }
+
+  .person-node-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .person-node-married {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .person-node-actions {
+    flex-direction: column;
+  }
+
+  .person-node-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,168 +1,225 @@
 import React, { useState } from "react";
+import axios from "axios";
+import PersonNode from "../Components/PersonNode";
+import { createPerson, createSpouse } from "../utils/createPerson";
 import "./PersonForm.css";
 
-import PersonNode from "../Components/PersonNode"
-
 function PersonForm() {
-    const createPerson = () => ({
-        name: "",
-        gender: "",
-        age: "",
-        photo: "",
-        married: false,
-        spouse: null,
-        children: []
-    })
+  const [familyName, setFamilyName] = useState("");
+  const [person, setPerson] = useState(createPerson());
+  const [loading, setLoading] = useState(false);
 
-    const [person, setPerson] = useState(createPerson());
+  const handleChange = (field, value) =>
+    setPerson((prev) => ({ ...prev, [field]: value }));
 
+  const handleMarriedChange = (value) =>
+    setPerson((prev) => ({
+      ...prev,
+      married: value,
+      spouse: value ? createSpouse() : null,
+    }));
 
-    const handleChange = (field, value) => {
-        setPerson(prev => ({
-            ...prev,
-            [field]: value
-        }));
+  const handleSpouseChange = (field, value) =>
+    setPerson((prev) => ({
+      ...prev,
+      spouse: { ...(prev.spouse || {}), [field]: value },
+    }));
 
-    };
+  const handleAddChild = () =>
+    setPerson((prev) => ({
+      ...prev,
+      children: [...prev.children, createPerson()],
+    }));
 
+  const handleChildChange = (index, updatedChild) => {
+    const updated = [...person.children];
+    updated[index] = updatedChild;
+    setPerson((prev) => ({ ...prev, children: updated }));
+  };
 
-    const handleMarriedChange = (value) => {
-        setPerson(prev => ({
-            ...prev,
-            married: value,
-            spouse: value ? { name: "", age: "", photo: "" } : null
-        }));
-    };
+  const sanitizePerson = (p) => ({
+    name: p.name,
+    gender: p.gender,
+    dob: p.dob || null,
+    photo: p.photo || "",
+    spouse:
+      p.married && p.spouse
+        ? {
+            name: p.spouse.name,
+            dob: p.spouse.dob || null,
+            photo: p.spouse.photo || "",
+          }
+        : undefined,
+    children: (p.children || []).map(sanitizePerson),
+  });
 
-    const handleSpouseChange = (field, value) => {
-        setPerson(prev => ({
-            ...prev,
-            spouse: {
-                ...(prev.spouse || {}),
-                [field]: value
-            }
-        }));
-    };
-
-    const handleAddChild = () => {
-        setPerson(prev => ({
-            ...prev,
-            children: [...prev.children, createPerson()]
-        }));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const payload = {
+        familyName,
+        rootPerson: sanitizePerson(person),
+      };
+      const res = await axios.post(
+        "http://localhost:5000/api/family/create",
+        payload,
+        { withCredentials: true },
+      );
+      alert("Family tree saved!");
+      console.log(res.data);
+    } catch (err) {
+      console.error(err);
+      alert(err?.response?.data?.message || "Error saving family");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const handleChildChange = (index, updatedChild) => {
-
-        const updatedChidren = [...person.children];
-        updatedChidren[index] = updatedChild;
-
-        setPerson(prev => ({
-            ...prev,
-            children: updatedChidren
-        }))
-
-
-    }
-    return (
-        <div className="person-container">
-            <form className="family-form">
-                <h2>Add Person</h2>
-                <div>
-                    <div className="form-grid">
-                        <div className="input-form" >
-                            <label>Name</label>
-                            <input value={person.name} onChange={(e) => handleChange("name", e.target.value)}
-                            />
-                        </div>
-                        <div className="input-form gender-main">
-                            <label>Gender</label>
-                            <select value={person.gender} onChange={(e) => handleChange("gender", e.target.value)}
-                            >
-                                <option>Select</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                            </select>
-                        </div>
-
-                        <div className="input-form">
-                            <label>Age</label>
-                            <input type="number" value={person.age} onChange={(e) => handleChange("age", e.target.value)} />
-                        </div>
-
-                        <div className="input-form">
-                            <label>Photo</label>
-                            <input type="file" onChange={(e) => handleChange("photo", e.target.files[0])}
-                            />
-                        </div>
-
-                    </div>
-
-                    <div className="married-row-container">
-
-                        <p>Is Married?</p>
-
-                        <div className="married-row">
-                            <label>
-                                <input type="radio" checked={person.married === true} onChange={() => handleMarriedChange(true)}
-                                />
-                                Yes
-                            </label>
-
-                            <label><input type="radio" checked={person.married === false} onChange={() => handleMarriedChange(false)} />
-                                No
-                            </label>
-                        </div>
-                    </div>
-                    {person.married && (
-                        <div className="spouse-section">
-
-                            <h3>Spouse</h3>
-
-                            <div className="form-grid">
-
-                                <div className="input-form">
-                                    <label>Spouse Name</label>
-                                    <input value={person.spouse.name} onChange={(e) => handleSpouseChange("name", e.target.value)}
-                                    />
-                                </div>
-
-                                <div className="input-form">
-                                    <label>Spouse Age</label>
-                                    <input type="number" value={person.spouse.age} onChange={(e) => handleSpouseChange("age", e.target.value)}
-                                    />
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-                    )}
-                    <h3>Children</h3>
-                    <div className="add-child-row  child-container">
-                        <button type="button" onClick={handleAddChild}>
-                            + Add Child
-                        </button>
-                        <button type="submit">Submit</button>
-                    </div>
-                    {person.children.map((child, index) => (
-                        <PersonNode
-                            key={child.id}
-                            person={child}
-                            onChange={(updatedChild) =>
-                                handleChildChange(index, updatedChild)
-                            }
-                        />
-                    ))}
-
-
-                </div>
-
-
-            </form>
-
+  return (
+    <div className="person-container">
+      <form className="family-form" onSubmit={handleSubmit}>
+        <div className="form-header">
+          <h2>Add Family Tree</h2>
+          <p className="form-subtitle">
+            Build your family structure with parents, spouses, and children
+          </p>
         </div>
-    );
+
+        <div className="form-section">
+          <div className="input-form">
+            <label>Family Name</label>
+            <input
+              value={familyName}
+              onChange={(e) => setFamilyName(e.target.value)}
+              placeholder="e.g. Sharma Family"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="form-section">
+          <h3>Root Person</h3>
+          <div className="form-grid">
+            <div className="input-form">
+              <label>Full Name</label>
+              <input
+                value={person.name}
+                onChange={(e) => handleChange("name", e.target.value)}
+                placeholder="Enter full name"
+                required
+              />
+            </div>
+            <div className="input-form">
+              <label>Gender</label>
+              <select
+                value={person.gender}
+                onChange={(e) => handleChange("gender", e.target.value)}
+                required
+              >
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div className="input-form">
+              <label>Date of Birth</label>
+              <input
+                type="date"
+                value={person.dob}
+                onChange={(e) => handleChange("dob", e.target.value)}
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="married-row-container">
+          <p>Is Married?</p>
+          <label>
+            <input
+              type="radio"
+              checked={person.married === true}
+              onChange={() => handleMarriedChange(true)}
+            />
+            Yes
+          </label>
+          <label>
+            <input
+              type="radio"
+              checked={person.married === false}
+              onChange={() => handleMarriedChange(false)}
+            />
+            No
+          </label>
+        </div>
+
+        {person.married && (
+          <div className="spouse-section">
+            <h3>Spouse Details</h3>
+            <div className="form-grid">
+              <div className="input-form">
+                <label>Spouse Name</label>
+                <input
+                  value={person.spouse?.name || ""}
+                  onChange={(e) => handleSpouseChange("name", e.target.value)}
+                  placeholder="Enter spouse name"
+                />
+              </div>
+              <div className="input-form">
+                <label>Spouse DOB</label>
+                <input
+                  type="date"
+                  value={person.spouse?.dob || ""}
+                  onChange={(e) => handleSpouseChange("dob", e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* CHILDREN */}
+        <div className="children-section">
+          <div className="children-header">
+            <h3>Children</h3>
+            <button
+              type="button"
+              className="add-child-btn"
+              onClick={handleAddChild}
+            >
+              + Add Child
+            </button>
+          </div>
+
+          {person.children.length === 0 && (
+            <p className="empty-children">
+              No children added yet. Click "Add Child" to start building the
+              tree.
+            </p>
+          )}
+
+          {person.children.map((child, index) => (
+            <PersonNode
+              key={child.id}
+              person={child}
+              onChange={(updated) => handleChildChange(index, updated)}
+              onRemove={() =>
+                setPerson((prev) => ({
+                  ...prev,
+                  children: prev.children.filter((_, i) => i !== index),
+                }))
+              }
+            />
+          ))}
+        </div>
+
+        <button type="submit" className="submit-btn" disabled={loading}>
+          {loading ? "Saving..." : "Submit Family Tree"}
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default PersonForm;
