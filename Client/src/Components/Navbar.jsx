@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import{useDispatch} from "react-redux"
 import "./Navbar.css";
 import logo from "../assets/logo.png";
 import {
@@ -101,7 +102,7 @@ function Navbar() {
               <span>Home</span>
             </NavLink>
             <NavLink
-              to="/family-trees"
+              to="/families"
               className={({ isActive }) =>
                 `nav-link ${isActive ? "active" : ""}`
               }
@@ -236,7 +237,7 @@ function Navbar() {
           ) : (
             <Link to="/LoginSignup" className="login-btn">
               <FaUser className="login-icon" />
-              <span>Login</span>
+              <span>Login/Signup</span>
             </Link>
           )}
 
@@ -268,7 +269,7 @@ function Navbar() {
           <span>Home</span>
         </NavLink>
         <NavLink
-          to="/family-trees"
+          to="/families"
           className={({ isActive }) =>
             `drawer-link ${isActive ? "active" : ""}`
           }

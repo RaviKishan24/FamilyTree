@@ -1,6 +1,14 @@
 import React from "react";
 import { createPerson, createSpouse } from "../utils/createPerson";
 import "./PersonNode.css";
+import {
+  FaUser,
+  FaVenusMars,
+  FaBirthdayCake,
+  FaHeart,
+  FaPlus,
+  FaTimes,
+} from "react-icons/fa";
 
 function PersonNode({ person, onChange, onRemove }) {
   const handleChange = (field, value) =>
@@ -41,61 +49,102 @@ function PersonNode({ person, onChange, onRemove }) {
         <h4 className="person-node-title">Child</h4>
 
         <div className="person-node-fields">
-          <input
-            placeholder="Name"
-            value={person.name}
-            onChange={(e) => handleChange("name", e.target.value)}
-          />
-          <select
-            value={person.gender}
-            onChange={(e) => handleChange("gender", e.target.value)}
-          >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-          <input
-            type="date"
-            value={person.dob}
-            onChange={(e) => handleChange("dob", e.target.value)}
-          />
+          <div className="field-wrap">
+            <FaUser className="field-icon" />
+            <input
+              type="text"
+              placeholder="Name"
+              value={person.name}
+              onChange={(e) => handleChange("name", e.target.value)}
+            />
+          </div>
+
+          <div className="field-wrap">
+            <FaVenusMars className="field-icon" />
+            <select
+              value={person.gender}
+              onChange={(e) => handleChange("gender", e.target.value)}
+              className="has-icon"
+            >
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div className="field-wrap">
+            <FaBirthdayCake className="field-icon" />
+            <input
+              type="date"
+              value={person.dob}
+              onChange={(e) => handleChange("dob", e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="person-node-married">
-          <p>Married?</p>
-          <label>
-            <input
-              type="radio"
-              checked={person.married === true}
-              onChange={() => handleMarriedChange(true)}
-            />
-            Yes
-          </label>
-          <label>
-            <input
-              type="radio"
-              checked={person.married === false}
-              onChange={() => handleMarriedChange(false)}
-            />
-            No
-          </label>
+          <div className="married-label">
+            <FaHeart className="married-icon" />
+            <p>Married?</p>
+          </div>
+
+          <div className="married-options">
+            <label
+              className={`radio-pill ${
+                person.married === true ? "active" : ""
+              }`}
+            >
+              <input
+                type="radio"
+                name={`married-${person.id}`}
+                checked={person.married === true}
+                onChange={() => handleMarriedChange(true)}
+              />
+              Yes
+            </label>
+            <label
+              className={`radio-pill ${
+                person.married === false ? "active" : ""
+              }`}
+            >
+              <input
+                type="radio"
+                name={`married-${person.id}`}
+                checked={person.married === false}
+                onChange={() => handleMarriedChange(false)}
+              />
+              No
+            </label>
+          </div>
         </div>
 
         {person.married && (
           <div className="person-node-spouse">
             <h5>Spouse</h5>
             <div className="person-node-fields">
-              <input
-                placeholder="Spouse Name"
-                value={person.spouse?.name || ""}
-                onChange={(e) => handleSpouseChange("name", e.target.value)}
-              />
-              <input
-                type="date"
-                value={person.spouse?.dob || ""}
-                onChange={(e) => handleSpouseChange("dob", e.target.value)}
-              />
+              <div className="field-wrap">
+                <FaUser className="field-icon" />
+                <input
+                  type="text"
+                  placeholder="Spouse Name"
+                  value={person.spouse?.name || ""}
+                  onChange={(e) =>
+                    handleSpouseChange("name", e.target.value)
+                  }
+                />
+              </div>
+
+              <div className="field-wrap">
+                <FaBirthdayCake className="field-icon" />
+                <input
+                  type="date"
+                  value={person.spouse?.dob || ""}
+                  onChange={(e) =>
+                    handleSpouseChange("dob", e.target.value)
+                  }
+                />
+              </div>
             </div>
           </div>
         )}
@@ -106,14 +155,16 @@ function PersonNode({ person, onChange, onRemove }) {
             className="person-node-btn person-node-btn-add"
             onClick={handleAddChild}
           >
-            + Add Child
+            <FaPlus className="btn-icon" />
+            Add Child
           </button>
           <button
             type="button"
             className="person-node-btn person-node-btn-remove"
             onClick={onRemove}
           >
-            ✕ Remove
+            <FaTimes className="btn-icon" />
+            Remove
           </button>
         </div>
       </div>

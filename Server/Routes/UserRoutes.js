@@ -1,11 +1,17 @@
 import express from "express";
-import { Login, Register, otpVerification } from "../Controller/UserController.js";
+import {
+  Login,
+  Logout,
+  Register,
+  otpVerification,
+} from "../Controller/UserController.js";
 
-
+import checkAuth from "../Authentication/auth.js";
 const userRouter = express.Router();
 
 userRouter.post("/register", Register);
-userRouter.post('/otp-verification', otpVerification);
-userRouter.post("/Login",Login);
+userRouter.post("/otp-verification", otpVerification);
+userRouter.post("/Login", Login);
+userRouter.post("/logout", checkAuth, Logout);
 
 export default userRouter;

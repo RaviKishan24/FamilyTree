@@ -1,14 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
 .person-node {
   margin-left: 24px;
   border-left: 2px dashed #cbd5e0;
   padding-left: 20px;
   margin-top: 16px;
   position: relative;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.25s ease;
 }
 
 .person-node:hover {
-  border-left-color: #667eea;
+  border-left-color: #94c598;
 }
 
 .person-node::before {
@@ -21,36 +23,37 @@
   border-radius: 50%;
   background: #ffffff;
   border: 2px solid #cbd5e0;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .person-node:hover::before {
-  border-color: #667eea;
-  background: #667eea;
+  border-color: #1b5e20;
+  background: #94c598;
+  box-shadow: 0 0 0 4px rgba(148, 197, 152, 0.25);
 }
 
 .person-node-card {
   background: #ffffff;
-  border: 1.5px solid #edf2f7;
-  border-radius: 14px;
-  padding: 20px 22px;
+  border: 1.5px solid #e6efe7;
+  border-radius: 16px;
+  padding: 22px 24px;
   margin-bottom: 12px;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 3px rgba(27, 94, 32, 0.04);
 }
 
 .person-node-card:hover {
-  border-color: #d6dce5;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-color: #94c598;
+  box-shadow: 0 8px 24px rgba(27, 94, 32, 0.1);
 }
 
 .person-node-title {
-  margin: 0 0 14px 0;
+  margin: 0 0 16px 0;
   font-size: 11.5px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #718096;
+  letter-spacing: 1.2px;
+  color: #5b6d61;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -62,109 +65,164 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #94c598 0%, #1b5e20 100%);
 }
 
 .person-node-fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
-.person-node-fields input:only-child,
-.person-node-fields input:first-child:nth-last-child(3) {
-  grid-column: span 1;
+.person-node-fields .field-wrap:first-child {
+  grid-column: 1 / -1;
 }
 
-.person-node-card input[type="text"],
-.person-node-card input[type="date"],
-.person-node-card input:not([type]),
-.person-node-card select {
+.field-wrap {
+  position: relative;
   width: 100%;
-  padding: 10px 13px;
-  border-radius: 9px;
+  display: flex;
+  align-items: center;
+}
+
+.field-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12.5px;
+  color: #7a9c80;
+  pointer-events: none;
+  transition: color 0.2s ease;
+  z-index: 1;
+}
+
+.person-node-card .field-wrap input,
+.person-node-card .field-wrap select {
+  width: 100%;
+  height: 42px;
+  padding: 0 36px 0 36px;
+  border-radius: 10px;
   border: 1.5px solid #e2e8f0;
   font-size: 13.5px;
-  font-family:
-    "Inter",
-    -apple-system,
-    sans-serif;
-  color: #2d3748;
-  background: #f9fafc;
+  font-family: "Inter", -apple-system, sans-serif;
+  color: #1a2b22;
+  background: #f7fafc;
   transition: all 0.2s ease;
   outline: none;
 }
 
-.person-node-card input:focus,
-.person-node-card select:focus {
-  border-color: #667eea;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
-}
-
-.person-node-card input::placeholder {
-  color: #a0aec0;
-}
-
-.person-node-card select {
+.person-node-card .field-wrap select.has-icon {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718096' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237a9c80' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
-  padding-right: 36px;
+  padding-right: 34px;
   cursor: pointer;
+}
+
+.person-node-card .field-wrap input:hover,
+.person-node-card .field-wrap select:hover {
+  border-color: #cbd5e0;
+}
+
+.person-node-card .field-wrap input:focus,
+.person-node-card .field-wrap select:focus {
+  border-color: #1b5e20;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(148, 197, 152, 0.2);
+}
+
+.person-node-card .field-wrap input:focus ~ .field-icon,
+.person-node-card .field-wrap select:focus ~ .field-icon {
+  color: #1b5e20;
+}
+
+.person-node-card .field-wrap input::placeholder {
+  color: #a0aec0;
 }
 
 .person-node-married {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin: 10px 0 14px 0;
-  padding: 10px 16px;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0 14px 0;
+  padding: 12px 16px;
   background: #f7fafc;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1.5px solid #edf2f7;
+  flex-wrap: wrap;
+}
+
+.married-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.married-icon {
+  font-size: 12.5px;
+  color: #e53e3e;
 }
 
 .person-node-married p {
   margin: 0;
   font-size: 13px;
   font-weight: 600;
-  color: #4a5568;
+  color: #0d3d13;
 }
 
-.person-node-married label {
+.married-options {
   display: flex;
+  gap: 8px;
+}
+
+.radio-pill {
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  padding: 7px 16px;
   font-size: 13px;
   font-weight: 500;
-  color: #4a5568;
+  color: #4a5c50;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
   cursor: pointer;
-  padding: 4px 10px;
-  border-radius: 6px;
-  transition: background 0.15s ease;
+  transition: all 0.2s ease;
+  user-select: none;
+  position: relative;
 }
 
-.person-node-married label:hover {
-  background: #edf2f7;
+.radio-pill:hover {
+  border-color: #94c598;
+  background: #f7fafc;
 }
 
-.person-node-married input[type="radio"] {
-  width: 15px;
-  height: 15px;
-  accent-color: #667eea;
-  cursor: pointer;
-  margin: 0;
+.radio-pill.active {
+  background: linear-gradient(135deg, #1b5e20 0%, #145a17 100%);
+  border-color: #1b5e20;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(27, 94, 32, 0.25);
+}
+
+.radio-pill input[type="radio"] {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  position: absolute;
 }
 
 .person-node-spouse {
   margin: 12px 0;
-  padding: 16px 18px;
-  background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
-  border: 1.5px solid #e9d8fd;
-  border-radius: 12px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #f5f9f5 0%, #eef5ee 100%);
+  border: 1.5px solid #d5e6d5;
+  border-radius: 14px;
   animation: nodeSlideDown 0.25s ease;
 }
 
@@ -180,47 +238,70 @@
 }
 
 .person-node-spouse h5 {
-  margin: 0 0 12px 0;
+  margin: 0 0 14px 0;
   font-size: 11.5px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: #805ad5;
+  letter-spacing: 1px;
+  color: #1b5e20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.person-node-spouse h5::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 14px;
+  background: linear-gradient(180deg, #f093fb 0%, #f5576c 100%);
+  border-radius: 2px;
+}
+
+.person-node-spouse .person-node-fields {
+  margin-bottom: 0;
+}
+
+.person-node-spouse .person-node-fields .field-wrap:first-child {
+  grid-column: auto;
 }
 
 .person-node-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 .person-node-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 18px;
   font-size: 12.5px;
   font-weight: 600;
-  font-family:
-    "Inter",
-    -apple-system,
-    sans-serif;
-  border-radius: 9px;
+  font-family: "Inter", -apple-system, sans-serif;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
   background: transparent;
 }
 
+.btn-icon {
+  font-size: 11px;
+}
+
 .person-node-btn-add {
-  border: 1.5px dashed #cbd5e0;
-  color: #4a5568;
+  border: 1.5px dashed #94c598;
+  color: #1b5e20;
 }
 
 .person-node-btn-add:hover {
-  border-color: #667eea;
-  color: #667eea;
-  background: rgba(102, 126, 234, 0.06);
+  border-style: solid;
+  border-color: #1b5e20;
+  background: rgba(148, 197, 152, 0.12);
+  transform: translateY(-1px);
 }
 
 .person-node-btn-remove {
@@ -232,6 +313,7 @@
   background: #fff5f5;
   border-color: #fc8181;
   color: #c53030;
+  transform: translateY(-1px);
 }
 
 .person-node-children {
@@ -240,31 +322,94 @@
 
 @media (max-width: 640px) {
   .person-node {
-    margin-left: 10px;
+    margin-left: 12px;
+    padding-left: 14px;
+  }
+
+  .person-node::before {
+    left: -7px;
+    top: 22px;
+    width: 10px;
+    height: 10px;
+  }
+
+  .person-node-card {
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+
+  .person-node-fields {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .person-node-fields .field-wrap:first-child {
+    grid-column: auto;
+  }
+
+  .person-node-card .field-wrap input,
+  .person-node-card .field-wrap select {
+    height: 44px;
+    font-size: 13.5px;
+  }
+
+  .person-node-married {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+
+  .married-label {
+    justify-content: flex-start;
+  }
+
+  .married-options {
+    width: 100%;
+  }
+
+  .radio-pill {
+    flex: 1;
+  }
+
+  .person-node-spouse {
+    padding: 16px 14px;
+  }
+
+  .person-node-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .person-node-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .person-node {
+    margin-left: 8px;
     padding-left: 12px;
   }
 
   .person-node-card {
     padding: 16px 14px;
-    border-radius: 12px;
   }
 
-  .person-node-fields {
-    grid-template-columns: 1fr;
+  .person-node-card .field-wrap input,
+  .person-node-card .field-wrap select {
+    height: 42px;
+    padding: 0 34px 0 34px;
+    font-size: 13px;
   }
 
-  .person-node-married {
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 10px 12px;
-  }
-
-  .person-node-actions {
-    flex-direction: column;
+  .field-icon {
+    left: 12px;
+    font-size: 12px;
   }
 
   .person-node-btn {
-    width: 100%;
-    justify-content: center;
+    padding: 8px 16px;
+    font-size: 12px;
   }
 }

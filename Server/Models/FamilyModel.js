@@ -10,7 +10,7 @@ const PersonSchema = new mongoose.Schema(
       dob: Date,
       photo: String,
     },
-    children: [], // placeholder
+    children: [], 
   },
   { _id: true },
 );
