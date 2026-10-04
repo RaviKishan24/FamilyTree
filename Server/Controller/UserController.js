@@ -258,4 +258,4 @@ const Logout = async (req, res) => {
   }
 };
 
-export { Register, otpVerification, Login, Logout };s
+export { Register, otpVerification, Login, Logout };
