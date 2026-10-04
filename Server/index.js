@@ -15,7 +15,7 @@ server.use(cookieParser());                // ✅ parse req.cookies
 
 server.use(                              // ✅ CORS with credentials
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://familytreevisualizer.netlify.app",
     credentials: true,
   })
 );
