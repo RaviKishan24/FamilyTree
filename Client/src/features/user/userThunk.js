@@ -1,64 +1,86 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../services/axiosInstance";
 
+// ─────────────────────────────────────────────
+// REGISTER
+// ─────────────────────────────────────────────
 export const register = createAsyncThunk(
-  "register",
+  "user/register",
   async (userData, thunkAPI) => {
     try {
       const response = await axiosInstance.post("/user/register", userData);
-
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response.data.message || " Registration Failed",
+        error.response?.data?.message ||
+          error.message ||
+          "Registration failed"
       );
     }
-  },
+  }
 );
 
+// ─────────────────────────────────────────────
+// OTP VERIFICATION
+// ─────────────────────────────────────────────
 export const otpVerification = createAsyncThunk(
-  "otpVerification",
+  "user/otpVerification",
   async (otpVerificationData, thunkAPI) => {
     try {
       const response = await axiosInstance.post(
         "/user/otp-verification",
-        otpVerificationData,
+        otpVerificationData
       );
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Failed otp Verification",
+        error.response?.data?.message ||
+          error.message ||
+          "OTP verification failed"
       );
     }
-  },
+  }
 );
 
-export const login = createAsyncThunk("login", async (loginData, thunkAPI) => {
-  try {
-    const response = await axiosInstance.post("/user/login", loginData);
-    console.log("response login is:" + response);
-    return response.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error.response.data.message || "Login failed",
-    );
+// ─────────────────────────────────────────────
+// LOGIN
+// ─────────────────────────────────────────────
+export const login = createAsyncThunk(
+  "user/login",
+  async (loginData, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post("/user/login", loginData);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message ||
+          error.message ||
+          "Login failed"
+      );
+    }
   }
-});
+);
 
+// ─────────────────────────────────────────────
+// CHECK AUTH
+// ─────────────────────────────────────────────
 export const checkAuth = createAsyncThunk(
   "user/checkAuth",
   async (_, thunkAPI) => {
     try {
       const response = await axiosInstance.get("/check-auth");
-      return response.data; // { success: true, user: {...} }
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Not authenticated",
+        error.response?.data?.message || "Not authenticated"
       );
     }
-  },
+  }
 );
 
+// ─────────────────────────────────────────────
+// LOGOUT
+// ─────────────────────────────────────────────
 export const logoutUser = createAsyncThunk(
   "user/logoutUser",
   async (_, thunkAPI) => {
@@ -67,8 +89,10 @@ export const logoutUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Logout failed",
+        error.response?.data?.message ||
+          error.message ||
+          "Logout failed"
       );
     }
-  },
+  }
 );

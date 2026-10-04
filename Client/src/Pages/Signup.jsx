@@ -66,10 +66,10 @@ function Signup() {
       const result = await dispatch(login(data));
 
       if (login.fulfilled.match(result)) {
-        toast.success(result.payload.message);
+        toast.success(result.payload?.message || "Login successful");
         navigate("/");
       } else {
-        toast.error(result.message);
+        toast.error(result.payload || "Login failed");
       }
     } else {
       if (password !== confirmPasswod) {
@@ -81,14 +81,16 @@ function Signup() {
       const result = await dispatch(register(data));
 
       if (register.fulfilled.match(result)) {
-        toast.success(result.payload.message);
+        toast.success(result.payload?.message || "Registration successful");
         localStorage.setItem("email", result.payload.data.email);
         localStorage.setItem(
           "otpExpiration",
-          result.payload.data.otpExpiration,
+          result.payload.data.otpExpiration
         );
         localStorage.setItem("canVerifyOtp", "true");
         navigate("/otp-verification");
+      } else {
+        toast.error(result.payload || "Registration failed");
       }
     }
   };

@@ -11,7 +11,7 @@ const userRouter = express.Router();
 
 userRouter.post("/register", Register);
 userRouter.post("/otp-verification", otpVerification);
-userRouter.post("/Login", Login);
+userRouter.post("/login", Login);
 userRouter.post("/logout", checkAuth, Logout);
 
 export default userRouter;
