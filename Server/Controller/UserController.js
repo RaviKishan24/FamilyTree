@@ -185,9 +185,14 @@ const Login = async (req, res) => {
 
     const token = jwt.sign(payload, secretKey, { expiresIn: "1d" });
 
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.cookie("userToken", token, {
       httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
     });
 
     return res.status(200).json({
@@ -210,12 +215,15 @@ const Login = async (req, res) => {
   }
 };
 
- const Logout = async (req, res) => {
+const Logout = async (req, res) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.clearCookie("userToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      path: "/",
     });
 
     return res.status(200).json({
@@ -224,7 +232,6 @@ const Login = async (req, res) => {
     });
   } catch (error) {
     console.error("Logout error:", error);
-
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
