@@ -11,25 +11,52 @@ import FamilyTreeView from "./Components/FamilyTreeView";
 import Signup from "./Pages/Signup";
 import OtpVerification from "./Pages/OtpVerification";
 import ProtectedOtpRoute from "./Components/ProtectedOtpRoute";
+import About from "./Pages/About";
+import HowToUse from "./Pages/HowToUse";
+import PageHandler from "./Components/PageHandler";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
+      /* ============================
+         REAL PAGES
+      ============================ */
       { index: true, element: <Home /> },
-      { path: "/add-family", element: <PersonForm /> },
-      { path: "/families", element: <FamilyList /> },
-      { path: "/family/:id", element: <FamilyTreeView /> },
-      { path: "/LoginSignup", element: <Signup /> },
+      { path: "add-family", element: <PersonForm /> },
+      { path: "families", element: <FamilyList /> },
+      { path: "family/:id", element: <FamilyTreeView /> },
+      { path: "LoginSignup", element: <Signup /> },
+      { path: "about", element: <About /> },
+      { path: "howtouse", element: <HowToUse /> },
       {
-        path: "/otp-verification",
+        path: "otp-verification",
         element: (
           <ProtectedOtpRoute>
             <OtpVerification />
           </ProtectedOtpRoute>
         ),
       },
+
+      /* ============================
+         UNDER-CONSTRUCTION PLACEHOLDERS
+         Real routes, but pages not built yet.
+         PageHandler detects the path and
+         shows the right "Coming Soon" copy.
+      ============================ */
+      { path: "gallery", element: <PageHandler /> },
+      { path: "members", element: <PageHandler /> },
+      { path: "events", element: <PageHandler /> },
+      { path: "stories", element: <PageHandler /> },
+      { path: "settings", element: <PageHandler /> },
+      { path: "profile", element: <PageHandler /> },
+
+      /* ============================
+         CATCH-ALL 404
+         MUST BE THE LAST CHILD ROUTE
+      ============================ */
+      { path: "*", element: <PageHandler /> },
     ],
   },
 ]);

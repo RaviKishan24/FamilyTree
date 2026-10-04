@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import{useDispatch} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../features/user/userThunk";
+
+import LogoutModal from "./LogoutModal";
 import "./Navbar.css";
 import logo from "../assets/logo.png";
 import {
@@ -15,22 +19,26 @@ import {
   FaTree,
   FaInfoCircle,
 } from "react-icons/fa";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { FaCircleQuestion } from "react-icons/fa6";
+import { Link, NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Navbar() {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const userMenuRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const user = useSelector((state) => state.user.user);
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -76,8 +84,34 @@ function Navbar() {
 
   const handleLogout = () => {
     setShowUserMenu(false);
+    setShowLogoutModal(true);
+  };
 
-    navigate("/");
+  const confirmLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+
+      const result = await dispatch(logoutUser());
+
+      if (logoutUser.fulfilled.match(result)) {
+        toast.success("Logged out successfully");
+      } else {
+        toast.error(result.payload || "Logout failed");
+      }
+
+      setShowLogoutModal(false);
+      navigate("/");
+    } catch (err) {
+      console.error("Logout error:", err);
+      toast.error("Something went wrong while logging out");
+      setShowLogoutModal(false);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutModal(false);
   };
 
   const closeMobileMenu = () => setShowMobileMenu(false);
@@ -118,6 +152,15 @@ function Navbar() {
             >
               <FaInfoCircle className="nav-link-icon" />
               <span>About</span>
+            </NavLink>
+            <NavLink
+              to="/howtouse"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+            >
+              <FaCircleQuestion className="nav-link-icon" />
+              <span>How to use</span>
             </NavLink>
           </nav>
         </div>
@@ -288,11 +331,42 @@ function Navbar() {
           <FaInfoCircle className="drawer-icon" />
           <span>About</span>
         </NavLink>
+        <NavLink
+          to="/howtouse"
+          className={({ isActive }) =>
+            `drawer-link ${isActive ? "active" : ""}`
+          }
+          onClick={closeMobileMenu}
+        >
+          <FaCircleQuestion className="drawer-icon" />
+          <span>How to use</span>
+        </NavLink>
+
+        {isAuthenticated && (
+          <button
+            type="button"
+            className="drawer-link drawer-logout"
+            onClick={() => {
+              closeMobileMenu();
+              handleLogout();
+            }}
+          >
+            <FaSignOutAlt className="drawer-icon" />
+            <span>Logout</span>
+          </button>
+        )}
       </div>
 
       {showMobileMenu && (
         <div className="mobile-overlay" onClick={closeMobileMenu} />
       )}
+
+      <LogoutModal
+        isOpen={showLogoutModal}
+        onClose={cancelLogout}
+        onConfirm={confirmLogout}
+        isLoading={isLoggingOut}
+      />
     </header>
   );
 }

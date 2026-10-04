@@ -1,0 +1,399 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+.placeholder-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  background: linear-gradient(180deg, #f8f6f0 0%, #f1f5f1 100%);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  color: #1a2b22;
+  position: relative;
+  overflow: hidden;
+}
+
+.placeholder-bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+.placeholder-bg-shape-1 {
+  width: 420px;
+  height: 420px;
+  background: #94c598;
+  opacity: 0.28;
+  top: -160px;
+  left: -160px;
+}
+
+.placeholder-bg-shape-2 {
+  width: 360px;
+  height: 360px;
+  background: #a7d4ab;
+  opacity: 0.22;
+  bottom: -140px;
+  right: -140px;
+}
+
+.placeholder-container {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  width: 100%;
+  text-align: center;
+  background: #ffffff;
+  border: 1.5px solid #e6efe7;
+  border-radius: 24px;
+  padding: 52px 40px 40px;
+  box-shadow:
+    0 1px 3px rgba(27, 94, 32, 0.06),
+    0 20px 50px rgba(27, 94, 32, 0.12);
+  animation: placeholderIn 0.4s ease;
+}
+
+@keyframes placeholderIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.placeholder-icon-wrap {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 20px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #94c598 0%, #7fb384 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(27, 94, 32, 0.22);
+}
+
+.placeholder-icon-wrap.pulse {
+  animation: placeholderPulse 3s ease-in-out infinite;
+}
+
+.placeholder-icon-wrap.spin {
+  animation: placeholderSpin 4s ease-in-out infinite;
+}
+
+@keyframes placeholderPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes placeholderSpin {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(-8deg) scale(1.05);
+  }
+}
+
+.placeholder-icon {
+  font-size: 28px;
+  color: #ffffff;
+}
+
+.placeholder-label {
+  display: inline-block;
+  color: #1b5e20;
+  font-weight: 700;
+  letter-spacing: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  background: rgba(148, 197, 152, 0.2);
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.placeholder-code {
+  font-size: 96px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -3px;
+  line-height: 1;
+  background: linear-gradient(135deg, #94c598 0%, #1b5e20 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.placeholder-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0d3d13;
+  margin: 12px 0 14px;
+  letter-spacing: -0.4px;
+  line-height: 1.25;
+}
+
+.placeholder-text {
+  font-size: 15px;
+  color: #5b6d61;
+  line-height: 1.65;
+  margin: 0 0 32px;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.placeholder-progress {
+  max-width: 380px;
+  margin: 0 auto 32px;
+}
+
+.placeholder-progress-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: #eef5ee;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.placeholder-progress-fill {
+  height: 100%;
+  width: 70%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #94c598 0%, #1b5e20 100%);
+  position: relative;
+  animation: placeholderProgress 2.4s ease-in-out infinite;
+}
+
+@keyframes placeholderProgress {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+.placeholder-progress-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  animation: placeholderShimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes placeholderShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.placeholder-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: #7a9c80;
+  font-weight: 500;
+}
+
+.placeholder-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.placeholder-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  height: 48px;
+  padding: 0 26px;
+  border-radius: 25px;
+  font-family: "Inter", sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  border: 1.5px solid transparent;
+  text-decoration: none;
+}
+
+.placeholder-btn-primary {
+  background: linear-gradient(135deg, #94c598 0%, #7fb384 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(27, 94, 32, 0.28);
+}
+
+.placeholder-btn-primary:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #7fb384 0%, #6ba370 100%);
+  box-shadow: 0 10px 26px rgba(27, 94, 32, 0.42);
+}
+
+.placeholder-btn-primary:active {
+  transform: translateY(0);
+}
+
+.placeholder-btn-secondary {
+  background: #f7fafc;
+  border-color: #e2e8f0;
+  color: #4a5c50;
+}
+
+.placeholder-btn-secondary:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+  color: #1a2b22;
+  transform: translateY(-2px);
+}
+
+.placeholder-btn-secondary:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  font-size: 13px;
+}
+
+.placeholder-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 24px;
+  border-top: 1px dashed #e6efe7;
+  font-size: 13.5px;
+}
+
+.placeholder-footer-label {
+  color: #7a9c80;
+  font-weight: 500;
+}
+
+.placeholder-footer-item,
+.placeholder-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #1b5e20;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+  transition: all 0.18s ease;
+  text-decoration: none;
+}
+
+.placeholder-footer-link:hover {
+  background: rgba(148, 197, 152, 0.15);
+}
+
+.footer-icon {
+  font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .placeholder-page {
+    padding: 40px 16px;
+  }
+
+  .placeholder-container {
+    padding: 40px 24px 32px;
+    border-radius: 20px;
+  }
+
+  .placeholder-icon-wrap {
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    margin-bottom: 16px;
+  }
+
+  .placeholder-icon {
+    font-size: 24px;
+  }
+
+  .placeholder-code {
+    font-size: 76px;
+    letter-spacing: -2px;
+  }
+
+  .placeholder-title {
+    font-size: 22px;
+  }
+
+  .placeholder-text {
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+
+  .placeholder-actions {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .placeholder-btn {
+    height: 46px;
+    padding: 0 22px;
+    font-size: 14px;
+  }
+
+  .placeholder-footer {
+    padding-top: 20px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 420px) {
+  .placeholder-container {
+    padding: 34px 20px 26px;
+  }
+
+  .placeholder-code {
+    font-size: 64px;
+  }
+
+  .placeholder-title {
+    font-size: 20px;
+  }
+
+  .placeholder-actions {
+    flex-direction: column;
+  }
+
+  .placeholder-btn {
+    width: 100%;
+  }
+
+  .placeholder-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .placeholder-footer-label {
+    display: block;
+    width: 100%;
+  }
+}
