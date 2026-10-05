@@ -2,20 +2,43 @@ import User from "../Models/UserModel.js";
 import env from "dotenv";
 env.config();
 import bcrypt from "bcrypt";
-import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 
-const Mail = process.env.MAIL;
-const MailPass = process.env.MAIL_PASS;
 const secretKey = process.env.SECRET_KEY;
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+const SENDER_EMAIL = process.env.SENDER_EMAIL || "ravikishankumar71@gmail.com";
+const SENDER_NAME = process.env.SENDER_NAME || "Family Tree Builder";
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: Mail,
-    pass: MailPass,
-  },
-});
+// ─────────────────────────────────────────────
+// HELPER: SEND EMAIL VIA BREVO (HTTP API)
+// ─────────────────────────────────────────────
+const sendEmailViaBrevo = async ({ to, name, subject, htmlContent }) => {
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "api-key": BREVO_API_KEY,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      sender: {
+        name: SENDER_NAME,
+        email: SENDER_EMAIL,
+      },
+      to: [{ email: to, name: name }],
+      subject: subject,
+      htmlContent: htmlContent,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error("❌ Brevo API Error:", errorData);
+    throw new Error("Failed to send email via Brevo");
+  }
+
+  return response.json();
+};
 
 // ─────────────────────────────────────────────
 // REGISTER
@@ -52,13 +75,6 @@ const Register = async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
     const otpExpiration = new Date(Date.now() + 5 * 60 * 1000);
 
-    const mailMessage = {
-      from: Mail,
-      to: email,
-      subject: "OTP verification for creating account",
-      text: `Hello ${name}, thank you for registering with us. This is your OTP: ${otp}. Please verify within 5 minutes.`,
-    };
-
     const newUser = await User.create({
       name,
       email,
@@ -69,7 +85,25 @@ const Register = async (req, res) => {
     });
 
     try {
-      await transporter.sendMail(mailMessage);
+      await sendEmailViaBrevo({
+        to: email,
+        name: name,
+        subject: "OTP verification for creating account",
+        htmlContent: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px;">
+            <h2 style="color: #1b5e20;">Welcome to SportsMart, ${name}!</h2>
+            <p>Thank you for registering with us. Use the OTP below to verify your account:</p>
+            <div style="background: #f0f9f0; padding: 15px; border-radius: 8px; text-align: center; margin: 20px 0;">
+              <h1 style="color: #1b5e20; letter-spacing: 6px; margin: 0;">${otp}</h1>
+            </div>
+            <p>This OTP is valid for <strong>5 minutes</strong>. Do not share it with anyone.</p>
+            <p style="color: #888; font-size: 12px; margin-top: 30px;">If you didn't request this, please ignore this email.</p>
+          </div>
+        `,
+      });
+
+      console.log("✅ OTP email sent to:", email);
+
       return res.status(201).json({
         success: true,
         message: "Registration Successful, Please Verify OTP",
@@ -80,6 +114,7 @@ const Register = async (req, res) => {
         },
       });
     } catch (error) {
+      console.error("❌ Failed to send OTP email:", error.message);
       await newUser.deleteOne();
       return res.status(500).json({
         success: false,
@@ -87,9 +122,10 @@ const Register = async (req, res) => {
       });
     }
   } catch (error) {
+    console.error("Register error:", error);
     return res.status(500).json({
       success: false,
-      message: `Server error occurred: ${error}`,
+      message: `Server error occurred: ${error.message}`,
     });
   }
 };
