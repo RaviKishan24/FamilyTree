@@ -3,13 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFamilyById } from "../features/family/familyThunk";
 import { FamilyTree, rel } from "@memoir/tree";
-import { FaArrowLeft, FaUser, FaSpinner, FaTree } from "react-icons/fa";
+import {
+  FaArrowLeft,
+  FaUser,
+  FaSpinner,
+  FaTree,
+  FaArrowsAltH,
+} from "react-icons/fa";
 import "./FamilyTreeView.css";
 
-/**
- * Converts your backend's nested rootPerson tree into @memoir/tree's
- * flat people + relationships format.
- */
 function convertToMemoirFormat(rootPerson) {
   const people = {};
   const relationships = [];
@@ -18,7 +20,6 @@ function convertToMemoirFormat(rootPerson) {
   function walk(person, parentId = null, parentSpouseId = null) {
     const personId = person._id || `person-${idCounter++}`;
 
-    // Register the person
     people[personId] = {
       id: personId,
       name: person.name,
@@ -27,7 +28,6 @@ function convertToMemoirFormat(rootPerson) {
       photo: person.photo || "",
     };
 
-    // Handle spouse
     let localSpouseId = null;
     if (person.spouse && person.spouse.name) {
       localSpouseId = `${personId}-spouse`;
@@ -39,26 +39,21 @@ function convertToMemoirFormat(rootPerson) {
         photo: person.spouse.photo || "",
       };
 
-      // Declare the partnership
       relationships.push(
         rel.partner(personId, localSpouseId, { relation: "spouse" })
       );
     }
 
-    // Declare parent-child link
     if (parentId) {
       if (parentSpouseId) {
-        // Child belongs to the parent + spouse union
         relationships.push(
           rel.children([parentId, parentSpouseId], [personId])
         );
       } else {
-        // Child belongs to a single parent
         relationships.push(rel.parents(personId, [parentId]));
       }
     }
 
-    // Recurse into children
     if (person.children && person.children.length > 0) {
       person.children.forEach((child) => {
         walk(child, personId, localSpouseId);
@@ -70,11 +65,6 @@ function convertToMemoirFormat(rootPerson) {
   return { people, relationships };
 }
 
-/**
- * Custom card component matching your green theme.
- * @memoir/tree passes ARIA props, keyboard handlers, and click handlers
- * via rootProps — always spread them onto the card root[citation:2].
- */
 function ProfileCard({ person, ...rootProps }) {
   return (
     <div {...rootProps} className="tree-person-card">
@@ -86,7 +76,9 @@ function ProfileCard({ person, ...rootProps }) {
         )}
       </div>
       <div className="tree-person-info">
-        <span className="tree-person-name">{person.name}</span>
+        <span className="tree-person-name" title={person.name}>
+          {person.name}
+        </span>
         <span className="tree-person-meta">
           {person.gender}
           {person.dob && ` · ${new Date(person.dob).getFullYear()}`}
@@ -180,17 +172,26 @@ function FamilyTreeView() {
       </div>
 
       <div className="tree-canvas">
-        <FamilyTree
-          people={memoirData.people}
-          subject={subjectId}
-          relationships={memoirData.relationships}
-          card={ProfileCard}
-          layoutMode="compact-family"
-          limits={{
-            ancestorGenerations: 3,
-            descendantGenerations: 3,
-          }}
-        />
+        <div className="tree-canvas-scroll">
+          <div className="tree-canvas-inner">
+            <FamilyTree
+              people={memoirData.people}
+              subject={subjectId}
+              relationships={memoirData.relationships}
+              card={ProfileCard}
+              layoutMode="compact-family"
+              limits={{
+                ancestorGenerations: 3,
+                descendantGenerations: 3,
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="tree-scroll-hint" aria-hidden="true">
+          <FaArrowsAltH />
+          <span>Swipe to explore</span>
+        </div>
       </div>
     </div>
   );
