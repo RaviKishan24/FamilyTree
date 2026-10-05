@@ -91,7 +91,7 @@ const Register = async (req, res) => {
         subject: "OTP verification for creating account",
         htmlContent: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px;">
-            <h2 style="color: #1b5e20;">Welcome to SportsMart, ${name}!</h2>
+            <h2 style="color: #1b5e20;">Welcome to Family tree Visualizer, ${name}!</h2>
             <p>Thank you for registering with us. Use the OTP below to verify your account:</p>
             <div style="background: #f0f9f0; padding: 15px; border-radius: 8px; text-align: center; margin: 20px 0;">
               <h1 style="color: #1b5e20; letter-spacing: 6px; margin: 0;">${otp}</h1>
